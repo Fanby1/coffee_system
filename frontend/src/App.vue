@@ -1,14 +1,18 @@
 <template>
-	<ModernLayout />
+	<v-app>
+		<!--ModernLayout />
+		<-->
+		<main-layout />
+	</v-app>
 </template>
 
 <script>
-import ModernLayout from "./components/ModernLayout.vue";
+import MainLayout from "./components/MainLayout.vue";
 
 export default {
 	name: "App",
 	components: {
-		ModernLayout,
+		MainLayout,
 	},
 };
 </script>

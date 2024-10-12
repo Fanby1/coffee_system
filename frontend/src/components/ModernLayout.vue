@@ -1,41 +1,30 @@
 <template>
-	<v-app>
-		<v-navigation-drawer app>
-			<!-- 侧边栏内容 -->
-			<v-list>
-				<v-list-item>
-					<v-list-item-content>
-						<v-list-item-title>菜单项1</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
-				<v-list-item>
-					<v-list-item-content>
-						<v-list-item-title>菜单项2</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
-			</v-list>
-		</v-navigation-drawer>
+	<v-layout class="rounded rounded-md">
+		<v-navigation-drawer :order="0" color="grey-darken-2" permanent></v-navigation-drawer>
 
-		<v-app-bar app>
-			<!-- 顶部导航栏内容 -->
-			<v-toolbar-title>我的咖啡点单系统</v-toolbar-title>
+		<v-app-bar :order="order" color="grey-lighten-2" title="Application bar" flat>
+			<template v-slot:append>
+				<v-switch v-model="order" false-value="0" label="Toggle order" true-value="-1" hide-details
+					inset></v-switch>
+			</template>
 		</v-app-bar>
 
-		<v-main>
-			<!-- 主内容 -->
+		<v-main class="d-flex align-center justify-center" style="min-height: 300px;">
 			<v-container>
-				<router-view></router-view>
+				<coffee-display-area></coffee-display-area>
 			</v-container>
 		</v-main>
-	</v-app>
+	</v-layout>
 </template>
-
 <script>
-export default {
-	name: "ModernLayout",
-};
-</script>
+import CoffeeDisplayArea from './CoffeeDisplayArea.vue';
 
-<style>
-/* 你可以在这里添加自定义样式 */
-</style>
+export default {
+	data: () => ({
+		order: 0,
+	}),
+	components: {
+		CoffeeDisplayArea,
+	},
+}
+</script>
