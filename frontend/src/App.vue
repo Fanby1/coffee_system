@@ -1,22 +1,12 @@
+<!-- src/App.vue -->
 <template>
-	<v-app>
-		<!--ModernLayout />
-		<-->
-		<main-layout />
-	</v-app>
+	<div id="app">
+		<router-view />
+	</div>
 </template>
 
 <script>
-import MainLayout from "./components/MainLayout.vue";
-
 export default {
-	name: "App",
-	components: {
-		MainLayout,
-	},
+	name: 'App',
 };
 </script>
-
-<style>
-/* 你可以在这里添加全局样式 */
-</style>

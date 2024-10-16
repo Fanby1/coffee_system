@@ -11,6 +11,7 @@
                     :image="coffee.image"
                     :name="coffee.name"
                     :price="coffee.price"
+					:discribe="coffee.discribe"
                 ></coffee-card>
             </v-col>
         </v-row>
