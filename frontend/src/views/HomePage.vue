@@ -17,6 +17,8 @@
 
 			<v-spacer></v-spacer>
 
+			<cart-dialog></cart-dialog>
+
 			<v-btn icon>
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
@@ -55,6 +57,8 @@
 <script>
 import CoffeeDisplayArea from '@/components/CoffeeDisplayArea.vue';
 import CoffeeCarousel from '@/components/CoffeeCarousel.vue';
+import CartDialog from '@/components/CartDialog.vue';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
 	name: 'HomePage',
@@ -62,8 +66,8 @@ export default {
 		order: 0,
 	}),
 	components: {
-		CoffeeDisplayArea, CoffeeCarousel
-	}, 
+		CoffeeDisplayArea, CoffeeCarousel, CartDialog,
+	},
 	methods: {
 		login() {
 			// 登录逻辑
@@ -71,15 +75,22 @@ export default {
 		},
 		register() {
 			// 登录逻辑
-			this.$router.push('/log-in'); // 导航到登录页面
+			this.$router.push('/sign-up'); // 导航到登录页面
+		},
+		...mapMutations(['addItemToCart']),
+		addItemToCart(product) {
+			this.addItemToCart(product);
 		}
+	},
+	computed: {
+		...mapGetters(['cartItemCount']),
 	}
 }
 </script>
 
 <style scoped>
-
 .main-background {
-    background-color: #f5f5f5; /* 设置你想要的背景颜色 */
+	background-color: #f5f5f5;
+	/* 设置你想要的背景颜色 */
 }
 </style>

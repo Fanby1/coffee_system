@@ -10,7 +10,7 @@ STATIC_DIR = config['server']['static_dir']
 def get_all_coffees():
     # 查询所有咖啡的名称
     coffees = db.session.query(Product).all()
-    res = [{"image": "/" + STATIC_DIR + "/coffee/" + coffee.image,
+    res = [{"id": coffee.product_id, "image": "/" + STATIC_DIR + "/coffee/" + coffee.image,
             "name": coffee.name, "price":  str(coffee.price), 
             "discribe": coffee.description} for coffee in coffees]
     return res

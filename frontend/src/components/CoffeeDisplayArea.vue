@@ -8,48 +8,27 @@
                 md="4"
             >
                 <coffee-card
-                    :image="coffee.image"
-                    :name="coffee.name"
-                    :price="coffee.price"
-					:discribe="coffee.discribe"
+                    :item = "coffee"
                 ></coffee-card>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+<script setup>
+import { useStore } from 'vuex';
+import { computed, onMounted } from 'vue';
 import CoffeeCard from './CoffeeCard.vue';
+const store = useStore();
 
-export default {
-    name: 'CoffeeList',
-    components: {
-        CoffeeCard
-    },
-    setup() {
-        const coffees = ref([]);
+onMounted(() => {
+  store.dispatch('fetchAllItems').then(() => {
+	console.log("get result")
+	console.log(store.getters.shopItems);
+  }); // 触发获取购物车数据的 action
+});
 
-        const fetchCoffees = async () => {
-            try {
-                const response = await axios.get('/api/coffees');
-                coffees.value = response.data.coffees;
-				console.log(coffees.value);
-            } catch (error) {
-                console.error('Error fetching coffee data:', error);
-            }
-        };
-
-        onMounted(() => {
-            fetchCoffees();
-        });
-
-        return {
-            coffees
-        };
-    }
-};
+const coffees = computed(() => store.getters.shopItems);
 </script>
 
 <style scoped>
