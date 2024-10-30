@@ -12,3 +12,10 @@ class Customer(db.Model):
 
 	def get_id(self):
 		return self.customer_id
+	def to_json(self):
+		return {
+			"id": self.customer_id,
+			"name": self.name,
+			"email": self.email,
+			"phone": self.phone
+		}

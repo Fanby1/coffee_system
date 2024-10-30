@@ -48,7 +48,6 @@
 import { ref } from 'vue'
 import { useField, useForm } from 'vee-validate'
 import { useRouter } from 'vue-router';
-import axios from 'axios'
 import { onMounted, watch } from 'vue'; // 导入 onMounted
 
 const router = useRouter();
@@ -108,24 +107,13 @@ const items = ref([
 ])
 
 const submit = handleSubmit(async values => {
-	const response = await axios.post('api/login', values);
-    const token = response.data.token;
-
-	if (response.data.message === "Login failed"){
-		alert("登录失败");
-		return;
-	}
-        
-    // 将 JWT 存储到 localStorage 或 sessionStorage 中
-    localStorage.setItem('token', token);
-
-    // 跳转到受保护的页面
-    router.push('/');
+	store.dispatch('login', values);
 })
 </script>
 
 <script>
 import AuthenticationLayout from '@/components/AuthenticationLayout.vue';
+import store from '@/store';
 export default {
 	name: 'LogIn',
 	components: {

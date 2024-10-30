@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'; 
 
 loadFonts()
+//localStorage.removeItem('vuexState'); // 删除键为 'vuexState' 的数据
 
 const app = createApp(App)
   .use(vuetify)

@@ -1,8 +1,13 @@
-import { createStore } from 'vuex';
-import shop from './modules/shop';
+import { createStore } from "vuex";
+import { persistState } from "./plugins/persisState";
+import authentication from "./modules/authentication";
+import shop from "./modules/shop";
 
-export default createStore({
+const store = createStore({
   modules: {
-    shop
-  }
+    shop, authentication
+  },
+  plugins: [persistState], // 加载持久化插件
 });
+
+export default store;

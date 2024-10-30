@@ -55,6 +55,11 @@
 						</v-list>
 					</v-col>
 				</v-row>
+				<v-row>
+					<v-col cols="12">
+						<v-btn block color="primary" @click="pay(totalPrice, '$', 'nothing')">结算</v-btn>
+					</v-col>
+				</v-row>
 
 			</v-card>
 			</v-container>
@@ -65,6 +70,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { pay } from '@/script/payment';
 
 const store = useStore();
 

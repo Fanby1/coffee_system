@@ -30,14 +30,31 @@
 			<v-btn icon>
 				<v-icon>mdi-dots-vertical</v-icon>
 			</v-btn>
-			<v-card color="primary" class="mr-2">
+			<v-card v-if="!isAuthenticated" color="primary" class="mr-2">
 				<v-btn @click="login">
 					登录
 				</v-btn>
 			</v-card>
-			<v-card color="secondary" class="mr-5">
+			<v-card v-if="!isAuthenticated" color="secondary" class="mr-5">
 				<v-btn @click="register">
 					注册
+				</v-btn>
+			</v-card>
+            <v-card v-if="isAuthenticated" color="primary" class="mr-2">
+                <v-row align="center" no-gutters>
+                    <v-col cols="auto" class="ma-2">
+                        <v-avatar>
+                            <img :src="require('@/assets/avatar.jpg')" alt="Avatar">
+                        </v-avatar>
+                    </v-col>
+                    <v-col>
+                        <v-card-title class="pl-2">{{ user.username }}</v-card-title>
+                    </v-col>
+                </v-row>
+            </v-card>
+			<v-card v-if="isAuthenticated" color="secondary" class="mr-2">
+				<v-btn @click="logout">
+					登出
 				</v-btn>
 			</v-card>
 		</v-app-bar>
@@ -59,6 +76,8 @@ import CoffeeDisplayArea from '@/components/CoffeeDisplayArea.vue';
 import CoffeeCarousel from '@/components/CoffeeCarousel.vue';
 import CartDialog from '@/components/CartDialog.vue';
 import { mapGetters, mapMutations } from 'vuex';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 
 export default {
 	name: 'HomePage',
@@ -86,6 +105,14 @@ export default {
 		...mapGetters(['cartItemCount']),
 	}
 }
+</script>
+
+<script setup>
+const store = useStore();
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+const user = computed(() => store.getters.user);
+const logout = () => store.dispatch('logout');
+console.log(isAuthenticated);
 </script>
 
 <style scoped>

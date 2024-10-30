@@ -1,4 +1,4 @@
-from app import db
+from global_var import db
 
 class OrderDetails(db.Model):
 	order_details_id = db.Column(db.Integer, primary_key=True)

@@ -4,7 +4,7 @@ from sqlalchemy import or_
 from global_var import db
 from entity.Customer import Customer
 from entity.Manager import Manager
-from util.jwt import create_jwt
+from flask_jwt_extended import create_access_token
 
 authentication_bp = Blueprint('authentication', __name__)
 
@@ -66,7 +66,11 @@ def login():
 	if user is not None:
 		return {
 			"message": "Login successfully",
-   			"token": create_jwt(user.get_id())
+   			"token": create_access_token(identity=user.get_id()),
+			"user" : {
+				"username": user.name,
+				"phone": user.phone,
+				"email": user.email}
 		}
 	else:
 		return {
