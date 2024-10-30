@@ -66,7 +66,7 @@ def login():
 	if user is not None:
 		return {
 			"message": "Login successfully",
-   			"token": create_access_token(identity=user.get_id()),
+   			"token": create_access_token(identity=user.get_id(),  additional_claims={"user_type": type}),
 			"user" : {
 				"username": user.name,
 				"phone": user.phone,

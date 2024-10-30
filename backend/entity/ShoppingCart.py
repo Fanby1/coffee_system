@@ -1,4 +1,4 @@
-from app import db
+from global_var import db
 from sqlalchemy.dialects.postgresql import JSON
 
 class ShoppingCart(db.Model):

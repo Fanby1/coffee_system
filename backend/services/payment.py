@@ -1,12 +1,12 @@
 from flask import Blueprint, request, current_app
-from sqlalchemy import or_
 from global_var import db
 from entity.Customer import Customer
-from entity.Manager import Manager
 from entity.Product import Product
 from entity.Order import Order
 from entity.OrderDetails import OrderDetails
+from entity.Payment import Payment
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from util.jwt import verify_identify
 
 payment_bp = Blueprint('payment', __name__)
 
@@ -27,7 +27,7 @@ def create_order_details(order_id, cart):
 def create_order(cart, customer, price):
 	for item in cart:
 		if not check_quantity(cart):
-			return False
+			raise Exception("库存不足")
 	order = Order(customer_id=customer.customer_id, price=price, status="processing")
 	db.session.add(order)
 	for item in cart:
@@ -35,16 +35,38 @@ def create_order(cart, customer, price):
 		product.stock -= item['quantity']
 		db.session.add(product)
 	create_order_details(order.order_id, cart)
-	db.session.commit()
+	return order.order_id
+ 
+def create_payment(customer_id, order_id, payment_method):
+	payment = Payment()
+	payment.customer_id = customer_id
+	current_app.logger.info("order_id : %d",order_id)
+	payment.order_id = order_id
+	payment.payment_method = payment_method
+	payment.status = "processing"
+	db.session.add(payment)
+	return payment.payment_id
     
 
 @payment_bp.route('/pay', methods=['POST'])
 @jwt_required()
 def pay():
+	verify_identify("顾客")
 	current_user = Customer.query.filter(Customer.customer_id==get_jwt_identity()).first()
 	data = request.get_json()
-	print(data)
-	create_order(data['detail'], current_user, data['amount'])
-	return {
-		"user": current_user.to_json(),
-	}
+	try:
+		order_id = create_order(data['detail'], current_user, data['amount'])
+		payment_id = create_payment(current_user.customer_id, order_id, data['description'])
+		db.session.commit()
+		return {
+			"message" : "success",
+    	    "user": current_user.to_json(),
+    	    "order_id": order_id,
+    	    "payment_id": payment_id
+    	}
+	except Exception as e:
+		current_app.logger.error(e)
+		db.session.rollback()
+		return {
+			"message" : "error"
+		}

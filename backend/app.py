@@ -26,9 +26,11 @@ jwt.init_app(app)
 from services.show_coffee import show_coffee_bp
 from services.authentication import authentication_bp
 from services.payment import payment_bp
+from services.management import management_bp
 app.register_blueprint(show_coffee_bp)
 app.register_blueprint(authentication_bp)
 app.register_blueprint(payment_bp)
+app.register_blueprint(management_bp)
 
 # 配置静态文件存储目录
 SERVER_IP = config['server']['ip']

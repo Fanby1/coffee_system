@@ -1,12 +1,13 @@
 from global_var import db
+from sqlalchemy import Column, Integer, String, Float
 
 class Product(db.Model):
-	product_id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(80), nullable=False)
-	price = db.Column(db.Float, nullable=False)
-	image = db.Column(db.String(80), nullable=False)
-	description = db.Column(db.String(255), nullable=False)
-	stock = db.Column(db.Integer, nullable=False)
+	product_id = Column(Integer, primary_key=True)
+	name = Column(String(80), nullable=False)
+	price = Column(Float, nullable=False)
+	image = Column(String(80), nullable=False)
+	description = Column(String(255), nullable=False)
+	stock = Column(Integer, nullable=False)
 
 	def __repr__(self):
 		return f'<Product {self.product_id} | name {self.name} >'
