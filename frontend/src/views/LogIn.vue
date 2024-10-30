@@ -48,17 +48,13 @@
 import { ref } from 'vue'
 import { useField, useForm } from 'vee-validate'
 import { useRouter } from 'vue-router';
-import { onMounted, watch } from 'vue'; // 导入 onMounted
+import { watch } from 'vue'; // 导入 onMounted
 
 const router = useRouter();
 console.log(router);
 console.log(router.query);
 console.log(router.query?.username);
 
-onMounted(() => {
-      console.log('Query on mount:', router.query); // 确保在挂载后获取 query
-      console.log('Username:', router.query?.username); // 这里检查用户名
-});
 watch(() => router.query, (newQuery) => {console.log('Query updated:', newQuery);})
 const { handleSubmit, handleReset } = useForm({
 	validationSchema: {

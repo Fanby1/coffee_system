@@ -1,65 +1,18 @@
 <template>
-	<v-layout>
-		<v-app-bar scroll-behavior="hide collapse elevate fade-image" color="teal-darken-4"
-			image="https://picsum.photos/1920/1080?random">
-			<template v-slot:image>
-				<v-img gradient="to top right, rgba(19,84,122,.8), rgba(128,208,199,.8)"></v-img>
-			</template>
-
-			<template v-slot:prepend>
-				<v-app-bar-nav-icon />
-			</template>
-
-			<v-card>
-				<v-img :src="require('/src/assets/language-java.png')" height="40px" width="40px"></v-img>
-			</v-card>
-			<v-app-bar-title>好喝的咖啡店</v-app-bar-title>
-
-			<v-spacer></v-spacer>
-
+	<main-layout>
+		<template v-slot:toolbar-icons>
 			<cart-dialog></cart-dialog>
-
 			<v-btn icon>
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
-
 			<v-btn icon>
 				<v-icon>mdi-heart</v-icon>
 			</v-btn>
-
 			<v-btn icon>
 				<v-icon>mdi-dots-vertical</v-icon>
 			</v-btn>
-			<v-card v-if="!isAuthenticated" color="primary" class="mr-2">
-				<v-btn @click="login">
-					登录
-				</v-btn>
-			</v-card>
-			<v-card v-if="!isAuthenticated" color="secondary" class="mr-5">
-				<v-btn @click="register">
-					注册
-				</v-btn>
-			</v-card>
-            <v-card v-if="isAuthenticated" color="primary" class="mr-2">
-                <v-row align="center" no-gutters>
-                    <v-col cols="auto" class="ma-2">
-                        <v-avatar>
-                            <img :src="require('@/assets/avatar.jpg')" alt="Avatar">
-                        </v-avatar>
-                    </v-col>
-                    <v-col>
-                        <v-card-title class="pl-2">{{ user.username }}</v-card-title>
-                    </v-col>
-                </v-row>
-            </v-card>
-			<v-card v-if="isAuthenticated" color="secondary" class="mr-2">
-				<v-btn @click="logout">
-					登出
-				</v-btn>
-			</v-card>
-		</v-app-bar>
-
-		<v-main class="main-background">
+		</template>
+		<template v-slot:main>
 			<v-container class="pa-0" fluid>
 				<coffee-carousel></coffee-carousel>
 				<template v-slot:image>
@@ -67,52 +20,15 @@
 				</template>
 				<coffee-display-area></coffee-display-area>
 			</v-container>
-		</v-main>
-	</v-layout>
+		</template>
+	</main-layout>
 </template>
 
-<script>
-import CoffeeDisplayArea from '@/components/CoffeeDisplayArea.vue';
-import CoffeeCarousel from '@/components/CoffeeCarousel.vue';
-import CartDialog from '@/components/CartDialog.vue';
-import { mapGetters, mapMutations } from 'vuex';
-import { useStore } from 'vuex';
-import { computed } from 'vue';
-
-export default {
-	name: 'HomePage',
-	data: () => ({
-		order: 0,
-	}),
-	components: {
-		CoffeeDisplayArea, CoffeeCarousel, CartDialog,
-	},
-	methods: {
-		login() {
-			// 登录逻辑
-			this.$router.push('/log-in'); // 导航到登录页面
-		},
-		register() {
-			// 登录逻辑
-			this.$router.push('/sign-up'); // 导航到登录页面
-		},
-		...mapMutations(['addItemToCart']),
-		addItemToCart(product) {
-			this.addItemToCart(product);
-		}
-	},
-	computed: {
-		...mapGetters(['cartItemCount']),
-	}
-}
-</script>
-
 <script setup>
-const store = useStore();
-const isAuthenticated = computed(() => store.getters.isAuthenticated);
-const user = computed(() => store.getters.user);
-const logout = () => store.dispatch('logout');
-console.log(isAuthenticated);
+import MainLayout from '@/components/MainLayout.vue';
+import CoffeeCarousel from '@/components/CoffeeCarousel.vue';
+import CoffeeDisplayArea from '@/components/CoffeeDisplayArea.vue';
+import CartDialog from '@/components/CartDialog.vue';
 </script>
 
 <style scoped>

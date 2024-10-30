@@ -50,8 +50,8 @@ def create_payment(customer_id, order_id, payment_method):
 
 @payment_bp.route('/pay', methods=['POST'])
 @jwt_required()
+@verify_identify("顾客")
 def pay():
-	verify_identify("顾客")
 	current_user = Customer.query.filter(Customer.customer_id==get_jwt_identity()).first()
 	data = request.get_json()
 	try:
@@ -59,7 +59,7 @@ def pay():
 		payment_id = create_payment(current_user.customer_id, order_id, data['description'])
 		db.session.commit()
 		return {
-			"message" : "success",
+			"result" : "success",
     	    "user": current_user.to_json(),
     	    "order_id": order_id,
     	    "payment_id": payment_id
@@ -68,5 +68,6 @@ def pay():
 		current_app.logger.error(e)
 		db.session.rollback()
 		return {
-			"message" : "error"
+			"result" : "error",
+			"message" : str(e)
 		}

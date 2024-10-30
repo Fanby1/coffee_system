@@ -6,6 +6,7 @@ export default {
     isAuthenticated: false,
     token: null,
     user: null,
+    type: null,
   },
   mutations: {
     setIsAuthenticated(state, isAuthenticated) {
@@ -16,6 +17,9 @@ export default {
     },
     setUser(state, user) {
       state.user = user;
+    },
+    setType(state, type) {
+      state.type = type;
     },
   },
   actions: {
@@ -32,13 +36,19 @@ export default {
       commit("setIsAuthenticated", true);
       commit("setToken", token);
       commit("setUser", user);
+      commit("setType", values.type);
       // 跳转到受保护的页面
-      router.push("/");
+      if (values.type === "顾客") {
+        router.push("/");
+      } else {
+        router.push("/admin-page");
+      }
     },
     logout({ commit }) {
       commit("setIsAuthenticated", false);
       commit("setToken", null);
       commit("setUser", null);
+      commit("setType", null);
       localStorage.removeItem("vuexState");
       router.push("/");
     },
@@ -46,6 +56,7 @@ export default {
   getters: {
     isAuthenticated: (state) => state.isAuthenticated,
     token: (state) => state.token,
-	user: (state) => state.user,
+    user: (state) => state.user,
+    type: (state) => state.type,
   },
 };

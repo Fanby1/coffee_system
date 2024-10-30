@@ -62,8 +62,9 @@ def add_product(name, price, description, quantity, image):
 
 @management_bp.route('/change-orders-statas', methods=['POST'])
 @jwt_required()
+@verify_identify("管理员")
 def change_orders_status():
-	verify_identify("管理员")
+	
 	order_ids = request.json['order_ids']
 	status = request.json['status']
 	result = []
@@ -74,8 +75,8 @@ def change_orders_status():
 
 @management_bp.route('/change-products-quantity', methods=['POST'])
 @jwt_required()
+@verify_identify("管理员")
 def change_products_quantity():
-	verify_identify("管理员")
 	product_ids = request.json['product_ids']
 	quantity = request.json['quantity']
 	result = []
@@ -86,8 +87,8 @@ def change_products_quantity():
 
 @management_bp.route('/delete-products', methods=['POST'])
 @jwt_required()
+@verify_identify("管理员")
 def delete_products():
-	verify_identify("管理员")
 	product_ids = request.json['product_ids']
 	result = []
 	for product_id in product_ids:
@@ -97,8 +98,8 @@ def delete_products():
 
 @management_bp.route('/add-products', methods=['POST'])
 @jwt_required()
+@verify_identify("管理员")
 def add_products():
-	verify_identify("管理员")
 	name = request.json['name']
 	price = request.json['price']
 	description = request.json['description']
