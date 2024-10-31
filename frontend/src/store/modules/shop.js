@@ -22,10 +22,7 @@ export default {
           const existingItem = map.get(item.id);
           existingItem.quantity += item.quantity;
           map.set(item.id, existingItem);
-        } else {
-          // 否则直接添加到 Map 中
-          map.set(item.id, { ...item });
-        }
+        } 
       });
       state.shopItems = Array.from(map.values());
       console.log("merge:");

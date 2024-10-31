@@ -16,7 +16,7 @@
 			<v-app-bar-title>好喝的咖啡店</v-app-bar-title>
 
 			<v-spacer></v-spacer>
-			
+
 			<slot name="toolbar-icons"></slot>
 
 			<v-card v-if="!isAuthenticated" color="primary" class="mr-2">
@@ -29,18 +29,18 @@
 					注册
 				</v-btn>
 			</v-card>
-            <v-card v-if="isAuthenticated" color="primary" class="mr-2">
-                <v-row align="center" no-gutters>
-                    <v-col cols="auto" class="ma-2">
-                        <v-avatar>
-                            <img :src="require('@/assets/avatar.jpg')" alt="Avatar">
-                        </v-avatar>
-                    </v-col>
-                    <v-col>
-                        <v-card-title class="pl-2">{{ user.username }}</v-card-title>
-                    </v-col>
-                </v-row>
-            </v-card>
+			<v-card v-if="isAuthenticated" color="primary" class="mr-2">
+				<v-row align="center" no-gutters>
+					<v-col cols="auto" class="ma-2">
+						<v-avatar>
+							<img :src="require('@/assets/avatar.jpg')" alt="Avatar">
+						</v-avatar>
+					</v-col>
+					<v-col>
+						<v-card-title class="pl-2">{{ user.username }}</v-card-title>
+					</v-col>
+				</v-row>
+			</v-card>
 			<v-card v-if="isAuthenticated" color="secondary" class="mr-2">
 				<v-btn @click="logout">
 					登出
@@ -48,10 +48,8 @@
 			</v-card>
 		</v-app-bar>
 
-		<v-main class="main-background">
-			<v-container class="pa-0" fluid>
-				<slot name="main"></slot>
-			</v-container>
+		<v-main class="main-background" fill-height>
+			<slot name="main"></slot>
 		</v-main>
 	</v-layout>
 </template>
@@ -68,11 +66,11 @@ const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const user = computed(() => store.getters.user);
 
 const login = () => {
-    router.push('/log-in');
+	router.push('/log-in');
 };
 
 const register = () => {
-    router.push('/sign-up');
+	router.push('/sign-up');
 };
 
 const logout = () => {

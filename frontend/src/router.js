@@ -39,12 +39,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.getters.isAuthenticated;
-  const user = store.getters.user;
+  const type = store.getters.type;
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isAuthenticated) {
       next({ name: "LogIn" });
-    } else if (to.meta.userType && to.meta.userType !== user.type) {
+    } else if (to.meta.userType && to.meta.userType !== type) {
       next({ name: "HomePage" }); // 或者跳转到其他页面
     } else {
       next();
